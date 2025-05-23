@@ -1,4 +1,4 @@
-module github.com/MdSadiqMd/mail.send.git
+module github.com/MdSadiqMd/mail.send
 
 go 1.23.3
 
