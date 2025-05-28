@@ -5,6 +5,7 @@ go 1.23.3
 require (
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/charmbracelet/log v0.4.2
+	github.com/joho/godotenv v1.5.1
 )
 
 require (
