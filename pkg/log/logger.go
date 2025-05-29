@@ -58,27 +58,33 @@ func getServiceStyle(serviceName string) lipgloss.Style {
 		Bold(true)
 }
 
-func (l *Logger) Debug(message string, data ...interface{}) {
-	l.logWithService(log.DebugLevel, message, data...)
+func (l *Logger) Debug(format string, args ...interface{}) {
+	l.logWithService(log.DebugLevel, format, args...)
 }
 
-func (l *Logger) Info(message string, data ...interface{}) {
-	l.logWithService(log.InfoLevel, message, data...)
+func (l *Logger) Info(format string, args ...interface{}) {
+	l.logWithService(log.InfoLevel, format, args...)
 }
 
-func (l *Logger) Warn(message string, data ...interface{}) {
-	l.logWithService(log.WarnLevel, message, data...)
+func (l *Logger) Warn(format string, args ...interface{}) {
+	l.logWithService(log.WarnLevel, format, args...)
 }
 
-func (l *Logger) Error(message string, data ...interface{}) {
-	l.logWithService(log.ErrorLevel, message, data...)
+func (l *Logger) Error(format string, args ...interface{}) {
+	l.logWithService(log.ErrorLevel, format, args...)
 }
 
-func (l *Logger) Fatal(message string, data ...interface{}) {
-	l.logWithService(log.FatalLevel, message, data...)
+func (l *Logger) Fatal(format string, args ...interface{}) {
+	var message string
+	if len(args) > 0 {
+		message = fmt.Sprintf(format, args...)
+	} else {
+		message = format
+	}
+	l.logger.Fatal(message)
 }
 
-func (l *Logger) logWithService(level log.Level, message string, data ...interface{}) {
+func (l *Logger) logWithService(level log.Level, format string, args ...interface{}) {
 	styles := log.DefaultStyles()
 	levelStyle := styles.Levels[level]
 	var levelText string
@@ -97,15 +103,17 @@ func (l *Logger) logWithService(level log.Level, message string, data ...interfa
 
 	levelRendered := levelStyle.Render(levelText)
 	serviceRendered := l.serviceStyle.Render(l.serviceName)
-	var dataText string
-	if len(data) > 0 {
-		dataText = fmt.Sprintf(" %v", data)
+
+	var message string
+	if len(args) > 0 {
+		message = fmt.Sprintf(format, args...)
+	} else {
+		message = format
 	}
 
-	fmt.Printf("%s %s %s%s\n",
+	fmt.Printf("%s %s %s\n",
 		levelRendered,
 		serviceRendered,
 		message,
-		dataText,
 	)
 }
