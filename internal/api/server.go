@@ -1,8 +1,7 @@
 package api
 
 import (
-	"net/http"
-
+	"github.com/MdSadiqMd/mail.send/internal/api/routes"
 	"github.com/go-chi/chi/v5"
 	"gorm.io/gorm"
 )
@@ -18,13 +17,5 @@ func NewServer(db *gorm.DB) *Server {
 }
 
 func (s *Server) RegisterRoutes(r chi.Router) {
-	s.registerHealthRoutes(r)
-}
-
-func (s *Server) registerHealthRoutes(r chi.Router) {
-	r.Route("/health", func(r chi.Router) {
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("OK"))
-		})
-	})
+	routes.RegisterHealthRoutes(r, s.db)
 }
