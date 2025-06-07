@@ -1,6 +1,7 @@
 package database
 
 import (
+	"github.com/MdSadiqMd/mail.send/internal/models"
 	logger "github.com/MdSadiqMd/mail.send/pkg/log"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -18,7 +19,7 @@ func Initialize(dataSourceName string) {
 	}
 	db.Info("Database connected successfully")
 
-	err = DB.AutoMigrate()
+	err = DB.AutoMigrate(&models.User{})
 	if err != nil {
 		db.Fatal("error in db migration: %v", err)
 	}

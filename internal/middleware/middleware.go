@@ -1,4 +1,4 @@
-package helpers
+package middleware
 
 import (
 	"errors"
@@ -40,7 +40,7 @@ func (auth Auth) CreateHashedPassword(password string) (string, error) {
 }
 
 func (auth Auth) GenerateToken(id uint, email string, role string) (string, error) {
-	if id == 0 || len(email) == 0 || len(role) == 0 {
+	if id == 0 || len(email) == 0 {
 		authLogger.Error("failed to generate token")
 		return "", errors.New("failed to generate token")
 	}
