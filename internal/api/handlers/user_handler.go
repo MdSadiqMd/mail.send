@@ -108,5 +108,6 @@ func (h *UserHandler) Verify(w http.ResponseWriter, r *http.Request) {
 		utils.ErrorResponse(w, http.StatusInternalServerError, "Verification failed", err)
 		return
 	}
+
 	utils.SuccessResponse(w, http.StatusOK, "User verified successfully", true)
 }
