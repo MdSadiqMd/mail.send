@@ -7,6 +7,7 @@ import (
 
 	"github.com/MdSadiqMd/mail.send/internal/api"
 	database "github.com/MdSadiqMd/mail.send/internal/db"
+	authMiddleware "github.com/MdSadiqMd/mail.send/internal/middleware"
 	"github.com/MdSadiqMd/mail.send/pkg/config"
 	logger "github.com/MdSadiqMd/mail.send/pkg/log"
 	"github.com/go-chi/chi/v5"
@@ -30,7 +31,12 @@ func main() {
 	r.Use(middleware.Recoverer)
 
 	server := api.NewServer(db)
-	server.RegisterRoutes(r)
+	server.RegisterRoutes(config.Handler{
+		App:    r,
+		DB:     db,
+		Auth:   authMiddleware.Auth{},
+		Config: cfg,
+	})
 
 	httpServer := &http.Server{
 		Addr:         fmt.Sprintf(":%s", cfg.ServerPort),

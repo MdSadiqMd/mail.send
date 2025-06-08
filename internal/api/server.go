@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/MdSadiqMd/mail.send/internal/api/routes"
-	"github.com/go-chi/chi/v5"
+	"github.com/MdSadiqMd/mail.send/pkg/config"
 	"gorm.io/gorm"
 )
 
@@ -16,6 +16,7 @@ func NewServer(db *gorm.DB) *Server {
 	}
 }
 
-func (s *Server) RegisterRoutes(r chi.Router) {
-	routes.RegisterHealthRoutes(r, s.db)
+func (s *Server) RegisterRoutes(handler config.Handler) {
+	routes.RegisterHealthRoutes(handler)
+	routes.RegisterUserRoutes(handler)
 }
